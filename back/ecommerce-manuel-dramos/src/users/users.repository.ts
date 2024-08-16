@@ -115,7 +115,60 @@ export class UsersRepository {
       city: 'Wellington',
     },
   ];
-  getUsers() {
-    return this.users;
+  getUsers(page: number, limit: number) {
+    const start = (page - 1) * limit;
+    const end = start + +limit;
+
+    const users = this.users.slice(start, end);
+
+    return users.map(({ password, ...user }) => user);
+  }
+
+  getUser(id: string) {
+    const user = this.users.find((user) => user.id === +id);
+
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
+  }
+
+  addUser(user: User) {
+    const id = this.users.length + 1;
+    user.id = id;
+
+    this.users.push(user);
+
+    const { password, ...userWithoutPassword } = user;
+
+    return userWithoutPassword;
+  }
+
+  updateUser(id: string, user: User) {
+    const oldUser = this.users.find((user) => user.id === +id);
+
+    if (!oldUser) {
+      return 'Usuario no existe';
+    }
+    const updateUser = { ...oldUser, ...user };
+
+    const index = this.users.findIndex((user) => user.id === +id);
+    this.users[index] = updateUser;
+
+    const { password, ...userWithoutPassword } = updateUser;
+    return userWithoutPassword;
+  }
+
+  deleteUser(id: string) {
+    const index = this.users.findIndex((user) => user.id === +id);
+    const user = this.users[index];
+
+    this.users.splice(index, 1);
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+
+  getUserByEmail(email: string) {
+    return this.users.find((user) => user.email === email);
   }
 }
