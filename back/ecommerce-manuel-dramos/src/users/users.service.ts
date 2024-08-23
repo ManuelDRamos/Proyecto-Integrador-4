@@ -37,14 +37,14 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async addUser(user: Users) {
+  async addUser(user: Partial<Users>) {
     const newUser = await this.usersRepository.save(user);
 
     const { password, ...userWithoutPassword } = newUser;
     return userWithoutPassword;
   }
 
-  async updateUser(id: string, user: Users) {
+  async updateUser(id: string, user: Partial<Users>) {
     await this.usersRepository.update(id, user);
 
     const updateUser = await this.usersRepository.findOneBy({ id });
