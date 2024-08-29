@@ -30,8 +30,7 @@ export class Users {
   email: string;
 
   @Column({
-    type: 'varchar',
-    length: 20,
+    type: 'text',
     nullable: false,
   })
   password: string;
@@ -57,6 +56,12 @@ export class Users {
     length: 50,
   })
   city: string;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  isAdmin: boolean;
 
   @OneToMany(() => Orders, (order) => order.user)
   @JoinColumn({ name: 'oders_id' })

@@ -7,7 +7,10 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  Validate,
+  IsEmpty,
 } from 'class-validator';
+import { MatchPassword } from 'src/decorators/matchPassword.decorator';
 
 export class CreateUserDTO {
   @IsNotEmpty()
@@ -30,6 +33,10 @@ export class CreateUserDTO {
   password: string;
 
   @IsNotEmpty()
+  @Validate(MatchPassword, ['password'])
+  passwordConfirmation: string;
+
+  @IsNotEmpty()
   @IsString()
   @MinLength(3)
   @MaxLength(80)
@@ -50,6 +57,9 @@ export class CreateUserDTO {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  @IsEmpty()
+  isAdmin?: boolean;
 }
 
 export class LoginUserDTO extends PickType(CreateUserDTO, [

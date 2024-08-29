@@ -12,13 +12,17 @@ import {
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateUserDTO } from './dtos/user.dto';
+import { Role } from 'src/roles.enum';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   getUsers(@Query('page') page: number, @Query('limit') limit: number) {
     if (page && limit) {
       return this.usersService.getUsers(page, limit);
@@ -27,7 +31,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   getUser(@Param('id') id: string) {
     return this.usersService.getUser(id);
   }

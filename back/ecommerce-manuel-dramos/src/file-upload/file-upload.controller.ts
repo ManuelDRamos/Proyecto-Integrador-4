@@ -3,19 +3,22 @@ import {
   Param,
   UploadedFile,
   UseInterceptors,
-  Put,
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('files')
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
-  @Put('uploadImage/:id')
+  @Post('uploadImage/:id')
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   uploadImage(
     @Param('id') productId: string,
