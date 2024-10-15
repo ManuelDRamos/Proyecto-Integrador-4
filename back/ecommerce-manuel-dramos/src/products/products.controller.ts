@@ -13,6 +13,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/roles.enum';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Products } from 'src/entities/products.entity';
 
 @ApiTags('PRODUCTS')
 @Controller('products')
@@ -41,7 +42,7 @@ export class ProductsController {
   @Put(':id')
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
-  updateProduct(@Query('id') id: string, @Body() product: any) {
+  updateProduct(@Query('id') id: string, @Body() product: Products) {
     return this.productsService.updateProduct(id, product);
   }
 }

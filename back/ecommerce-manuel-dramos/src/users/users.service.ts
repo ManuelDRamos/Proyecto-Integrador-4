@@ -52,6 +52,11 @@ export class UsersService {
     return userWithoutPassword;
   }
 
+  async userRole(id: string) {
+    await this.usersRepository.update({ id }, { isAdmin: true });
+    return 'rol de administrador asignado correctamente';
+  }
+
   async deleteUser(id: string): Promise<Partial<Users>> {
     const user = await this.usersRepository.findOneBy({ id });
 

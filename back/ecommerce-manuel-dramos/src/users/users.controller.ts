@@ -52,6 +52,11 @@ export class UsersController {
     return this.usersService.updateUser(id, user);
   }
 
+  @Put('admin/:id')
+  userRole(@Param('id') id: string) {
+    return this.usersService.userRole(id);
+  }
+
   @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AuthGuard)

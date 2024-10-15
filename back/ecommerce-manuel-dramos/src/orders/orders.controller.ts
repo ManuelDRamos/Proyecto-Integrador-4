@@ -11,7 +11,7 @@ export class OrdersController {
 
   @ApiBearerAuth()
   @Post()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   addOrder(@Body() order: CreateOrderDTO) {
     const { userId, products } = order;
     return this.ordersService.addOrder(userId, products);
